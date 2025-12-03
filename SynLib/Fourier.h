@@ -22,7 +22,7 @@ namespace Syn {
 		}
 
 		inline void SetupWorkBuffer(float *const outputBuffer);
-		inline void ProcessWorkBuffer(size_t step);
+		inline void ProcessWorkBuffer(size_t const step);
 		inline void ProjectMagnitudes(float *const outputBuffer);
 	};
 }

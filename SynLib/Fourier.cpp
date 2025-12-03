@@ -40,7 +40,7 @@ inline void Fourier::SetupWorkBuffer(float* const outputBuffer) {
 	}
 }
 
-inline void Fourier::ProcessWorkBuffer(size_t step) {
+inline void Fourier::ProcessWorkBuffer(size_t const step) {
 	const size_t span = static_cast<size_t>(1) << step;
 	const size_t halfSpan = span / 2;
 	const size_t sizeOverSpan = m_size / span;
@@ -49,10 +49,10 @@ inline void Fourier::ProcessWorkBuffer(size_t step) {
 		const size_t groupStart = span * group;
 		
 		for (size_t pairStart = groupStart; pairStart < groupStart + halfSpan; pairStart++) {
-			auto even = m_workBuffer[pairStart];
-			auto odd = m_workBuffer[pairStart + halfSpan];
-			auto twiddle = m_twiddles[(pairStart - groupStart) * sizeOverSpan];
-			auto twiddledOdd = twiddle * odd;
+			const auto even = m_workBuffer[pairStart];
+			const auto& odd = m_workBuffer[pairStart + halfSpan];
+			const auto& twiddle = m_twiddles[(pairStart - groupStart) * sizeOverSpan];
+			const auto twiddledOdd = twiddle * odd;
 
 			m_workBuffer[pairStart] = even + twiddledOdd;
 			m_workBuffer[pairStart + halfSpan] = even - twiddledOdd;
