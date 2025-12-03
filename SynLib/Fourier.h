@@ -10,8 +10,9 @@ namespace Syn {
 		~Fourier();
 		void AddSample(float const sample);
 		void Transform(float *const outputBuffer);
+		inline size_t OutputBufferSize() const;
 	private:
-		const size_t m_size;
+		const size_t m_size, m_totalSteps;
 		const Complex *m_twiddles;
 		Complex *m_workBuffer;
 		CircularBuffer<float> *m_samples;
@@ -20,6 +21,8 @@ namespace Syn {
 			return m_twiddles[index];
 		}
 
-		void SetupWorkBuffer(float *const outputBuffer);
+		inline void SetupWorkBuffer(float *const outputBuffer);
+		inline void ProcessWorkBuffer(size_t step);
+		inline void ProjectMagnitudes(float *const outputBuffer);
 	};
 }
