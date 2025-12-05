@@ -4,11 +4,26 @@ namespace SynTUI
 {
     internal class ConsolePen : IDisposable
     {
-        private int Width { get; set; }
-        private int Height { get; set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
         private ConsoleCell[] Cells { get; set; }
         public int PositionX { get; set; } = 0;
         public int PositionY { get; set; } = 0;
+        private List<string> Commands = new();
+        public bool CursorVisible
+        {
+            set
+            {
+                if (value)
+                {
+                    Commands.Add(Sequences.CursorOn);
+                }
+                else
+                {
+                    Commands.Add(Sequences.CursorOff);
+                }
+            }
+        }
         private ConsolePen()
         {
             Resize();
@@ -65,15 +80,22 @@ namespace SynTUI
         }
         public void Clear()
         {
+            Resize();
             for(int i = 0; i < Cells.Length; i++)
             {
                 Cells[i].Reset();
             }
+            ResetPosition();
         }
         public void Update()
         {
-            Console.Write(Sequences.Clear);
             StringBuilder renderer = new();
+            renderer.Append(Sequences.Clear);
+
+            foreach(var command in Commands){
+                renderer.Append(command);
+            }
+            Commands.Clear();
 
             bool needToMove = true;
             for(int row = 0; row < Height; row++)
@@ -118,6 +140,10 @@ namespace SynTUI
                     break;
                 }
             }
+        }
+        public void SetTitle(string title)
+        {
+            Commands.Add(Sequences.Title(title));
         }
     }
 }

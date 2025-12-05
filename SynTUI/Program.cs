@@ -2,17 +2,25 @@
 {
     internal class Program
     {
+        public static bool IsRunning { get; set; } = true;
         static void Main(string[] args)
         {
             using var pen = ConsolePen.PickUp();
-            pen.Move(0, 0).Print("Hello world!");
-            pen.Move(1, 1).Print("Nice to meet you!!");
-            pen.Update();
-
-
-
-
-            Thread.Sleep(20000);
+            Loop(pen);
+            
+        }
+        static void Loop(ConsolePen pen)
+        {
+            pen.CursorVisible = false;
+            pen.SetTitle("Clock");
+            while (IsRunning)
+            {
+                string time = DateTime.Now.ToLongTimeString();
+                pen.Move((pen.Width / 2) - (time.Length / 2), pen.Height / 2).Print(time);
+                pen.Update();
+                Thread.Sleep(250);
+                pen.Clear();
+            }
         }
     }
 }

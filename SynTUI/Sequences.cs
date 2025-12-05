@@ -32,5 +32,13 @@
         {
             return $"{Escape}]0;{title}{Terminator}";
         }
+        public static string CursorOn
+        {
+            get => $"{Escape}[?25h";
+        }
+        public static string CursorOff
+        {
+            get => $"{Escape}[?25l";
+        }
     }
 }
