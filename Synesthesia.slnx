@@ -4,7 +4,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="SynLib/SynLib.vcxproj" />
+  <Project Path="SynLib/SynLib.vcxproj" Id="7a1d0c42-f4aa-4828-aa20-9e80bd0ca0ca" />
   <Project Path="SynTUI/SynTUI.csproj" />
-  <Project Path="SynTUILib/SynTUILib.vcxproj" />
 </Solution>

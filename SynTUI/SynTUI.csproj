@@ -5,11 +5,15 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>syn</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SynLib\SynLib.vcxproj" />
-    <ProjectReference Include="..\SynTUILib\SynTUILib.vcxproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(SolutionDir)\x64\$(Configuration)\SynTUILib.dll&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
 
 </Project>

@@ -4,7 +4,8 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            using var pen = ConsolePen.PickUp();
+            Thread.Sleep(2000);
         }
     }
 }
