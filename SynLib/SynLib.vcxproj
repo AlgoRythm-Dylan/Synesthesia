@@ -146,6 +146,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Twiddles.h" />
+    <ClInclude Include="WinAudio.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ButterflyTranslator.cpp" />
@@ -158,6 +159,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Twiddles.cpp" />
+    <ClCompile Include="WinAudio.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
