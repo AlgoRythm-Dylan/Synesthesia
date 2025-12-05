@@ -24,7 +24,9 @@
         }
         public static string MoveCursor(int x, int y)
         {
-            return $"{Escape}[{y};{x}H";
+            // Positions here are 1-based, so (0, 0) needs to be translated
+            // to (1, 1)
+            return $"{Escape}[{y+1};{x+1}H";
         }
         public static string Title(string title)
         {
