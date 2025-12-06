@@ -4,12 +4,18 @@ namespace SynTUI
 {
     internal class ConsolePen : IDisposable
     {
+        #region Public Properties
         public int Width { get; private set; }
         public int Height { get; private set; }
-        private ConsoleCell[] Cells { get; set; }
         public int PositionX { get; set; } = 0;
         public int PositionY { get; set; } = 0;
+        #endregion
+        #region Private Properties
+        private ConsoleCell[] Cells;
         private List<string> Commands = new();
+        private string? PreRenderResult = null;
+        #endregion
+        #region Virtual Properties
         public bool CursorVisible
         {
             set
@@ -24,9 +30,18 @@ namespace SynTUI
                 }
             }
         }
+        public string Title
+        {
+            set
+            {
+                Commands.Add(Sequences.Title(value));
+            }
+        }
+        #endregion
+        #region Construction and Destruction
         private ConsolePen()
         {
-            Resize();
+            BufferSizeCheck();
             Clear();
             Console.Write(Sequences.AlternateScreen + Sequences.Clear + Sequences.MoveCursor(0, 0));
         }
@@ -36,9 +51,11 @@ namespace SynTUI
         }
         public void Dispose()
         {
-            Console.Write(Sequences.RegularScreen);
+            Console.Write(Sequences.RegularScreen + Sequences.SoftReset);
         }
-        protected void Resize()
+        #endregion
+        #region Buffer Operations
+        protected void BufferSizeCheck()
         {
             int newWidth = Console.WindowWidth;
             int newHeight = Console.WindowHeight;
@@ -50,6 +67,17 @@ namespace SynTUI
             Cells = new ConsoleCell[Width * Height];
             for(int i = 0; i < Cells.Length; i++) Cells[i] = new ConsoleCell();
         }
+        public void Clear()
+        {
+            BufferSizeCheck();
+            for (int i = 0; i < Cells.Length; i++)
+            {
+                Cells[i].Reset();
+            }
+            ResetPosition();
+        }
+        #endregion
+        #region Positioning
         public void ResetPosition()
         {
             PositionX = 0;
@@ -61,6 +89,8 @@ namespace SynTUI
             PositionY = y;
             return this;
         }
+        #endregion
+        #region Positioning Metafunctions
         public bool PositionIsValid()
         {
             return (PositionY * Width) + PositionX < Cells.Length;
@@ -68,7 +98,7 @@ namespace SynTUI
         public void AdvancePosition()
         {
             PositionX++;
-            if(PositionX >= Width)
+            if (PositionX >= Width)
             {
                 PositionX = 0;
                 PositionY++;
@@ -78,29 +108,23 @@ namespace SynTUI
         {
             return Cells[(PositionY * Width) + PositionX];
         }
-        public void Clear()
-        {
-            Resize();
-            for(int i = 0; i < Cells.Length; i++)
-            {
-                Cells[i].Reset();
-            }
-            ResetPosition();
-        }
-        public void Update()
+        #endregion
+        #region Rendering
+        protected string Render()
         {
             StringBuilder renderer = new();
             renderer.Append(Sequences.Clear);
 
-            foreach(var command in Commands){
+            foreach (var command in Commands)
+            {
                 renderer.Append(command);
             }
             Commands.Clear();
 
             bool needToMove = true;
-            for(int row = 0; row < Height; row++)
+            for (int row = 0; row < Height; row++)
             {
-                for(int col = 0; col < Width; col++)
+                for (int col = 0; col < Width; col++)
                 {
                     var cellAt = Cells[(row * Width) + col];
                     if (cellAt.IsEmpty)
@@ -117,9 +141,27 @@ namespace SynTUI
                     renderer.Append(cellAt.Render());
                 }
             }
-            Console.Write(renderer.ToString());
+            return renderer.ToString();
+        }
+        public void PreRender()
+        {
+            PreRenderResult = Render();
+        }
+        public void Update()
+        {
+            if(PreRenderResult is null)
+            {
+                Console.Write(Render());
+            }
+            else
+            {
+                Console.Write(PreRenderResult);
+                PreRenderResult = null;
+            }
             Console.Out.Flush();
         }
+        #endregion
+        #region Writing
         public bool WriteCell(string content)
         {
             if (PositionIsValid())
@@ -141,9 +183,6 @@ namespace SynTUI
                 }
             }
         }
-        public void SetTitle(string title)
-        {
-            Commands.Add(Sequences.Title(title));
-        }
+        #endregion
     }
 }

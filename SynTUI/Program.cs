@@ -12,15 +12,29 @@
         static void Loop(ConsolePen pen)
         {
             pen.CursorVisible = false;
-            pen.SetTitle("Clock");
+            pen.Title = "Clock";
             while (IsRunning)
             {
-                string time = DateTime.Now.ToLongTimeString();
-                pen.Move((pen.Width / 2) - (time.Length / 2), pen.Height / 2).Print(time);
-                pen.Update();
+                Draw(pen);
                 Thread.Sleep(250);
                 pen.Clear();
+                while (Console.KeyAvailable)
+                {
+                    if(Console.ReadKey().KeyChar == 'q')
+                    {
+                        IsRunning = false;
+                    }
+                }
             }
+        }
+        static void Draw(ConsolePen pen)
+        {
+            string time = DateTime.Now.ToLongTimeString();
+            string date = DateTime.Now.ToLongDateString();
+            int centerVertical = pen.Height / 2;
+            pen.Move((pen.Width / 2) - (time.Length / 2), centerVertical - 1).Print(time);
+            pen.Move((pen.Width / 2) - (date.Length / 2), centerVertical).Print(date);
+            pen.Update();
         }
     }
 }

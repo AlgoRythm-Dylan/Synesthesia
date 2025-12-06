@@ -40,5 +40,9 @@
         {
             get => $"{Escape}[?25l";
         }
+        public static string SoftReset
+        {
+            get => $"{Escape}[!p";
+        }
     }
 }
