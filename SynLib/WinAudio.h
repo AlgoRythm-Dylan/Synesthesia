@@ -1,13 +1,14 @@
 #pragma once
 
 #include <Audioclient.h>
-#include <Audiopolicy.h>
 #include <mmdeviceapi.h>
-#include <objbase.h>
 #include <atlcomcli.h>
 #include <stdexcept>
 
+#include "WaveDataIngestor.h"
+
 namespace Syn {
+
     struct WinAudioDeviceContainer {
         CComPtr<IMMDeviceEnumerator> enumerator;
         CComPtr<IMMDevice> device;
@@ -28,8 +29,19 @@ namespace Syn {
         WinAudioDeviceContainer deviceContainer;
         IAudioClient *client;
         IAudioCaptureClient *capture;
-        WAVEFORMATEX *format;
+
+        WinAudio();
+        ~WinAudio();
 
         void Initialize();
+        void Release();
+        size_t Read(float const*, size_t);
+    private:
+        WAVEFORMATEX* m_format;
+        WAVEFORMATEXTENSIBLE* m_formatEX;
+        SourceWaveFormat m_sourceFormat;
+        WaveDataIngestor wdi;
+
+        void ParseWaveFormat();
     };
 }
