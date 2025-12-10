@@ -9,6 +9,7 @@ namespace SynTUI
         public int Height { get; private set; }
         public int PositionX { get; set; } = 0;
         public int PositionY { get; set; } = 0;
+        public ConsoleCellAttributes Attributes { get; set; } = new();
         #endregion
         #region Private Properties
         private ConsoleCell[] Cells;
@@ -57,6 +58,7 @@ namespace SynTUI
         #region Buffer Operations
         protected void BufferSizeCheck()
         {
+            Attributes = new();
             int newWidth = Console.WindowWidth;
             int newHeight = Console.WindowHeight;
             if(newWidth != Width || newHeight != Height)
@@ -113,7 +115,7 @@ namespace SynTUI
         protected string Render()
         {
             StringBuilder renderer = new();
-            renderer.Append(Sequences.Clear);
+            renderer.Append(Sequences.Clear + Sequences.DefaultAttributes);
 
             foreach (var command in Commands)
             {
@@ -122,11 +124,27 @@ namespace SynTUI
             Commands.Clear();
 
             bool needToMove = true;
+            ConsoleCell? lastRenderedCell = null;
             for (int row = 0; row < Height; row++)
             {
                 for (int col = 0; col < Width; col++)
                 {
                     var cellAt = Cells[(row * Width) + col];
+
+                    if (lastRenderedCell is null || lastRenderedCell.Attributes.CompareTo(cellAt.Attributes) != 0)
+                    {
+                        if (cellAt.Attributes.IsEmpty)
+                        {
+                            renderer.Append(Sequences.DefaultAttributes);
+                        }
+                        else
+                        {
+                            renderer.Append(cellAt.Attributes.Render());
+                        }
+                    }
+
+                    lastRenderedCell = cellAt;
+
                     if (cellAt.IsEmpty)
                     {
                         needToMove = true;
@@ -138,7 +156,7 @@ namespace SynTUI
                         renderer.Append(Sequences.MoveCursor(col, row));
                         needToMove = false;
                     }
-                    renderer.Append(cellAt.Render());
+                    renderer.Append(cellAt.Content);
                 }
             }
             return renderer.ToString();
@@ -168,6 +186,7 @@ namespace SynTUI
             {
                 var thisCell = CellAtPosition();
                 thisCell.Content = content;
+                thisCell.Attributes = Attributes;
                 AdvancePosition();
                 return true;
             }

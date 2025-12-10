@@ -38,10 +38,6 @@ namespace Syn {
         size_t Read(float const*, size_t);
     private:
         WAVEFORMATEX* m_format;
-        WAVEFORMATEXTENSIBLE* m_formatEX;
-        SourceWaveFormat m_sourceFormat;
         WaveDataIngestor wdi;
-
-        void ParseWaveFormat();
     };
 }

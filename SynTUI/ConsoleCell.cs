@@ -32,13 +32,6 @@
             _content = "";
             _empty = true;
         }
-        public string Render()
-        {
-            if (_empty)
-            {
-                return "";
-            }
-            return Content ?? "";
-        }
+        public ConsoleCellAttributes Attributes { get; set; } = new();
     }
 }

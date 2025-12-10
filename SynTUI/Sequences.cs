@@ -44,5 +44,25 @@
         {
             get => $"{Escape}[!p";
         }
+        public static string LineDrawMode
+        {
+            get => $"{Escape}(0";
+        }
+        public static string ASCIIMode
+        {
+            get => $"{Escape}(B";
+        }
+        public static string Underline
+        {
+            get => $"{Escape}[4m";
+        }
+        public static string Negative
+        {
+            get => $"{Escape}[7m";
+        }
+        public static string DefaultAttributes
+        {
+            get => $"{Escape}[0m";
+        }
     }
 }

@@ -37,33 +37,6 @@ void WinAudio::Initialize() {
 	client->Start();
 }
 
-void WinAudio::ParseWaveFormat() {
-	m_sourceFormat = SourceWaveFormat::Unknown;
-
-	if (m_formatEX != nullptr) {
-		const GUID& sub = m_formatEX->SubFormat;
-		WORD bits = m_formatEX->Samples.wValidBitsPerSample;
-
-		if (IsEqualGUID(sub, KSDATAFORMAT_SUBTYPE_IEEE_FLOAT) && bits == 32) {
-			m_sourceFormat = SourceWaveFormat::Float;
-		}
-		else if (IsEqualGUID(sub, KSDATAFORMAT_SUBTYPE_PCM)) {
-			if (bits == 16) m_sourceFormat = SourceWaveFormat::PCM16;
-			if (bits == 24) m_sourceFormat = SourceWaveFormat::PCM24;
-			if (bits == 32) m_sourceFormat = SourceWaveFormat::PCM32;
-		}
-
-	}
-	else if (m_format->wFormatTag == WAVE_FORMAT_IEEE_FLOAT) {
-		m_sourceFormat = SourceWaveFormat::Float;
-	}
-	else if (m_format->wFormatTag == WAVE_FORMAT_PCM) {
-		if (m_format->wBitsPerSample == 16) m_sourceFormat = SourceWaveFormat::PCM16;
-		else if (m_format->wBitsPerSample == 24) m_sourceFormat = SourceWaveFormat::PCM24;
-		else if (m_format->wBitsPerSample == 32) m_sourceFormat = SourceWaveFormat::PCM32;
-	}
-}
-
 size_t WinAudio::Read(float const *outBuffer, size_t outBufferSize) {
 	BYTE* data;
 	UINT32 count;
