@@ -23,10 +23,7 @@ void WinAudio::Initialize() {
 	}
 
 	client->GetMixFormat(&m_format);
-	if (m_format->wFormatTag == WAVE_FORMAT_EXTENSIBLE) {
-		m_formatEX = reinterpret_cast<WAVEFORMATEXTENSIBLE*>(m_format);
-	}
-	ParseWaveFormat();
+	wdi.ParseFormat(m_format);
 
 	client->Initialize(
 		AUDCLNT_SHAREMODE_SHARED,
@@ -67,11 +64,12 @@ void WinAudio::ParseWaveFormat() {
 	}
 }
 
-size_t WinAudio::Read(float const *outBuffer, size_t bufferSize) {
+size_t WinAudio::Read(float const *outBuffer, size_t outBufferSize) {
 	BYTE* data;
 	UINT32 count;
 	DWORD flags;
 	capture->GetBuffer(&data, &count, &flags, NULL, NULL);
+	wdi.Ingest(data, count, flags, outBuffer, outBufferSize);
 	capture->ReleaseBuffer(count);
 	return static_cast<size_t>(count);
 }
