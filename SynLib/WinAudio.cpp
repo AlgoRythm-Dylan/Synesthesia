@@ -37,7 +37,7 @@ void WinAudio::Initialize() {
 	client->Start();
 }
 
-size_t WinAudio::Read(float const *outBuffer, size_t outBufferSize) {
+size_t WinAudio::Read(float *const outBuffer, size_t outBufferSize) {
 	BYTE* data;
 	UINT32 count;
 	DWORD flags;

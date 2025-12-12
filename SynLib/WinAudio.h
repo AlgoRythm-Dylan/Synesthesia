@@ -35,7 +35,7 @@ namespace Syn {
 
         void Initialize();
         void Release();
-        size_t Read(float const*, size_t);
+        size_t Read(float *const, size_t);
     private:
         WAVEFORMATEX* m_format;
         WaveDataIngestor wdi;
