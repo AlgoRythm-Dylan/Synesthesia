@@ -8,8 +8,8 @@
     <AssemblyName>syn</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SynLib\SynLib.vcxproj" />
-  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /y /d &quot;$(SolutionDir)x64\$(Configuration)\SynLib.dll&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
 
 </Project>

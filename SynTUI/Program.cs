@@ -6,20 +6,28 @@ namespace SynTUI
     {
         public static bool IsRunning { get; set; } = true;
         private static Stopwatch RenderFrameSW = Stopwatch.StartNew();
+        private static WinAudioAPI AudioAPI = new();
         static void Main(string[] args)
         {
             using var pen = ConsolePen.PickUp();
-            Loop(pen);
-            
+            try
+            {
+                Loop(pen);
+            }
+            finally
+            {
+                AudioAPI.End();
+            }
         }
         static void Loop(ConsolePen pen)
         {
             pen.CursorVisible = false;
-            pen.Title = "Clock";
+            pen.Title = "Synesthesia Visualizer";
+            AudioAPI.Start();
             Draw(pen);
             while (IsRunning)
             {
-                if(RenderFrameSW.ElapsedMilliseconds >= 250)
+                if(RenderFrameSW.ElapsedMilliseconds >= 30)
                 {
                     Draw(pen);
                     pen.Clear();
@@ -32,21 +40,12 @@ namespace SynTUI
                         IsRunning = false;
                     }
                 }
-                // Realistically, we only need to poll every 25ms or so
-                // for a console application
-                Thread.Sleep(25);
             }
         }
         static void Draw(ConsolePen pen)
         {
-            string time = DateTime.Now.ToLongTimeString();
-            string date = DateTime.Now.ToLongDateString();
-            int centerVertical = pen.Height / 2;
-            pen.Attributes.Foreground = ConsoleColor.Blue;
-            pen.Attributes.HasBrightForeground = true;
-            pen.Move((pen.Width / 2) - (time.Length / 2), centerVertical - 1).Print(time);
-            pen.Attributes = new();
-            pen.Move((pen.Width / 2) - (date.Length / 2), centerVertical).Print(date);
+            var buckets = AudioAPI.Update();
+            pen.Print("Buckets[0]: " + buckets[0]);
             pen.Update();
         }
     }

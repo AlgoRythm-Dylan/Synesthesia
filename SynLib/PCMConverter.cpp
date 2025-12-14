@@ -2,13 +2,13 @@
 #include "PCMConverter.h"
 
 namespace Syn {
-	constexpr float UpcastPCM16(int16_t pcm) {
+	float UpcastPCM16(int16_t pcm) {
 		// Divide by max value of 16 bit integer to get
 		// float range between 0 and 1
 		return pcm / 32786.0f;
 	}
 
-	constexpr float UpcastPCM24(uint8_t a, uint8_t b, uint8_t c) {
+	float UpcastPCM24(uint8_t a, uint8_t b, uint8_t c) {
 		// int32_t upcastInt = (int32_t)(a | b << 8 | c << 16);
 		// 
 		// At this point, the 23rd bit is the sign bit. On a 32 bit
@@ -39,7 +39,7 @@ namespace Syn {
 		return upcastInt / 8388608.0f;
 	}
 
-	constexpr float UpcastPCM32(int32_t pcm) {
+	float UpcastPCM32(int32_t pcm) {
 		return pcm / 2147483648.0f;
 	}
 }

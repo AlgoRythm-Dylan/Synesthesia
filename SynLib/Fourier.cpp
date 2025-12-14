@@ -20,8 +20,8 @@ size_t Fourier::OutputBufferSize() const {
 	return (m_size / 2) + 1;
 }
 
-inline void Fourier::Transform(float *const outputBuffer) {
-	SetupWorkBuffer(outputBuffer);
+void Fourier::Transform(float *const outputBuffer) {
+	SetupWorkBuffer();
 	// SetupWorkBuffer also performs the first pairings
 	for (size_t i = 1; i < m_totalSteps; i++) {
 		ProcessWorkBuffer(i);
@@ -29,10 +29,10 @@ inline void Fourier::Transform(float *const outputBuffer) {
 	ProjectMagnitudes(outputBuffer);
 }
 
-inline void Fourier::SetupWorkBuffer(float *const outputBuffer) {
+inline void Fourier::SetupWorkBuffer() {
 	for (size_t i = 0; i < m_size / 2; i++) {
 		const size_t cursor = 2 * i;
-		const float even = m_samples->Get(m_butterflies[cursor]);
+		const float even = m_samples->Get(m_butterflies[0]);
 		const float odd = m_samples->Get(m_butterflies[cursor + 1]);
 		m_workBuffer[cursor].Real = even + odd;
 		m_workBuffer[cursor].Imaginary = 0;

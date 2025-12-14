@@ -21,7 +21,7 @@ namespace Syn {
 			return m_twiddles[index];
 		}
 
-		inline void SetupWorkBuffer(float *const outputBuffer);
+		inline void SetupWorkBuffer();
 		inline void ProcessWorkBuffer(size_t const step);
 		inline void ProjectMagnitudes(float *const outputBuffer);
 	};

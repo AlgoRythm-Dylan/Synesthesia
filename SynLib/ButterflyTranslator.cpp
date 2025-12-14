@@ -16,6 +16,7 @@ namespace Syn {
 	size_t* computeButterflies(size_t bufferLength) {
 		size_t* buffer = new size_t[bufferLength];
 		const size_t bitCount = log2(bufferLength);
+		buffer[0] = 0;
 		for (size_t i = 1; i < bufferLength; i++) {
 			buffer[i] = reverseBits(i, bitCount);
 		}
