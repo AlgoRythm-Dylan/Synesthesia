@@ -34,6 +34,14 @@ void WaveDataIngestor::ParseFormat(WAVEFORMATEX *wf) {
 }
 
 void WaveDataIngestor::Ingest(BYTE *data, UINT32 count, DWORD flags, float *const outBuffer, size_t outBufferSize) {
+
+	if (flags & AUDCLNT_BUFFERFLAGS_SILENT) {
+		for (size_t i = 0; i < count && i < outBufferSize; i++) {
+			outBuffer[i] = 0.0f;
+		}
+		return;
+	}
+
 	WaveData wd{ data, count, flags, outBuffer, outBufferSize };
 	if (Format == SourceWaveFormat::Float) {
 		IngestFloat(&wd);
