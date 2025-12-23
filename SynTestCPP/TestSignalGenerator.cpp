@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "TestSignalGenerator.h"
 
-using namespace SynTest;
-
 #include <cmath>
 
 constexpr double PI = 3.14159265358979323846;
@@ -49,7 +47,7 @@ TestSignalFrequency *TestSignalGenerator::Add(double freq, double amp) {
 }
 
 void TestSignalGenerator::UseNyquist() {
-	SamplesPerSecond = 2 * HighestFrequency();
+	SamplesPerSecond = 2.0f * HighestFrequency();
 }
 
 double TestSignalGenerator::HighestFrequency() const {
