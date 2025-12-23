@@ -4,6 +4,13 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Project Path="SynCommon/SynCommon.csproj" Id="adf17758-a358-44a2-977a-aa6ddbabd48a" />
+  <Project Path="SynGUI/SynGUI.csproj" Id="0993671a-fa3d-4d8d-a199-fed3f3db2b07">
+    <Platform Solution="*|Any CPU" Project="x64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+    <Deploy />
+  </Project>
   <Project Path="SynLib/SynLib.vcxproj" Id="7a1d0c42-f4aa-4828-aa20-9e80bd0ca0ca" />
   <Project Path="SynTUI/SynTUI.csproj" />
 </Solution>

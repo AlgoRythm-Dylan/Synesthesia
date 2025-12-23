@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SynGUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "SynGUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
