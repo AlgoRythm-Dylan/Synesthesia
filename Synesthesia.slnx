@@ -12,5 +12,6 @@
     <Deploy />
   </Project>
   <Project Path="SynLib/SynLib.vcxproj" Id="7a1d0c42-f4aa-4828-aa20-9e80bd0ca0ca" />
+  <Project Path="SynTestCPP/SynTestCPP.vcxproj" />
   <Project Path="SynTUI/SynTUI.csproj" />
 </Solution>
