@@ -13,5 +13,6 @@
   </Project>
   <Project Path="SynLib/SynLib.vcxproj" Id="7a1d0c42-f4aa-4828-aa20-9e80bd0ca0ca" />
   <Project Path="SynTestCPP/SynTestCPP.vcxproj" />
+  <Project Path="SynTestCS/SynTestCS.csproj" Id="8689a5f3-90d2-4454-84d5-84a625b5bea8" />
   <Project Path="SynTUI/SynTUI.csproj" />
 </Solution>
