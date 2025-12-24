@@ -7,6 +7,6 @@ namespace Syn {
 
 	constexpr float TAU = 6.2831853f;
 
-	Complex* computeTwiddles(size_t);
+	SYN_EXPORT_DEBUG Complex* computeTwiddles(size_t);
 
 }

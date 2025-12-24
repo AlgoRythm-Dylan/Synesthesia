@@ -1,11 +1,12 @@
 #pragma once
 
 #include "pch.h"
+#include "ExportSymbols.h"
 
 namespace Syn {
 
 	template<class T>
-	class CircularBuffer {
+	class SYN_EXPORT_DEBUG CircularBuffer {
 	protected:
 		T* m_buffer = nullptr;
 		size_t m_writePosition, m_count, m_size;

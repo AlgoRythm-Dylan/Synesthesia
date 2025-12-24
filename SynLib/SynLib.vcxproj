@@ -142,6 +142,7 @@
     <ClInclude Include="ButterflyTranslator.h" />
     <ClInclude Include="CircularBuffer.hpp" />
     <ClInclude Include="Complex.h" />
+    <ClInclude Include="ExportSymbols.h" />
     <ClInclude Include="Exports.h" />
     <ClInclude Include="Fourier.h" />
     <ClInclude Include="framework.h" />

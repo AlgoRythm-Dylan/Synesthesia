@@ -29,6 +29,10 @@ void Fourier::Transform(float *const outputBuffer) {
 	ProjectMagnitudes(outputBuffer);
 }
 
+inline const Complex & Fourier::Twiddle(size_t const index) const {
+	return m_twiddles[index];
+}
+
 inline void Fourier::SetupWorkBuffer() {
 	for (size_t i = 0; i < m_size / 2; i++) {
 		const size_t cursor = 2 * i;

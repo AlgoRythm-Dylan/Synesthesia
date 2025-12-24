@@ -2,9 +2,10 @@
 
 #include "Complex.h"
 #include "CircularBuffer.hpp"
+#include "ExportSymbols.h"
 
 namespace Syn {
-	struct Fourier
+	struct SYN_EXPORT_DEBUG Fourier
 	{
 		Fourier(size_t size);
 		~Fourier();
@@ -17,9 +18,7 @@ namespace Syn {
 		Complex *m_workBuffer;
 		CircularBuffer<float> *m_samples;
 		const size_t* m_butterflies;
-		inline const Complex& Twiddle(size_t const index) const {
-			return m_twiddles[index];
-		}
+		inline const Complex &Twiddle(size_t const index) const;
 
 		inline void SetupWorkBuffer();
 		inline void ProcessWorkBuffer(size_t const step);

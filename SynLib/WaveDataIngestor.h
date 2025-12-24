@@ -3,10 +3,11 @@
 #include <Audioclient.h>
 
 #include "SourceWaveFormat.h"
+#include "ExportSymbols.h"
 
 namespace Syn {
 
-	struct WaveData {
+	struct SYN_EXPORT_DEBUG WaveData {
 		BYTE *InData;
 		UINT32 FrameCount;
 		DWORD Flags;
@@ -14,7 +15,7 @@ namespace Syn {
 		size_t OutBufferSize;
 	};
 
-	struct WaveDataIngestor
+	struct SYN_EXPORT_DEBUG WaveDataIngestor
 	{
 		WaveDataIngestor();
 		SourceWaveFormat Format;

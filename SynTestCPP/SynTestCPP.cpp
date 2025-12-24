@@ -20,7 +20,7 @@ namespace SynTestCPP
 			TestSignalGenerator generator;
 			generator.Add(1, 3.5);
 			Syn::Fourier transform(2048);
-			for (size_t i = 0; i < 2 - 48; i++) {
+			for (size_t i = 0; i < 2048; i++) {
 				transform.AddSample(generator.Next());
 			}
 			float *outputBuffer = new float[2048];

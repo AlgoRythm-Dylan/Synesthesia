@@ -1,8 +1,10 @@
 #pragma once
 
+#include "ExportSymbols.h"
+
 namespace Syn {
 
-	struct Complex
+	struct SYN_EXPORT_DEBUG Complex
 	{
 		Complex();
 		Complex(float, float);
