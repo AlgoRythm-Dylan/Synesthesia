@@ -1,14 +1,12 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+#include "TestingSymbols.h"
 
 #include "TestSignalGenerator.h"
 #include "Fourier.h"
 #include "ButterflyTranslator.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-constexpr float TOLERANCE = 1e-6;
-constexpr double TOLERANCE_DOUBLE_PRECISION = 1e-9;
 
 namespace SynTestCPP
 {
@@ -23,6 +21,12 @@ namespace SynTestCPP
 			delete butterflies;
 		}
 
+		TEST_METHOD(FFTOutputSize)
+		{
+			Syn::Fourier transform(2048);
+			Assert::AreEqual(static_cast<size_t>(1025), transform.OutputBufferSize());
+		}
+
 		TEST_METHOD(FFTOneFrequency)
 		{
 			TestSignalGenerator generator;
@@ -31,7 +35,7 @@ namespace SynTestCPP
 			for (size_t i = 0; i < 2048; i++) {
 				transform.AddSample(generator.Next());
 			}
-			float *outputBuffer = new float[2048];
+			float *outputBuffer = new float[transform.OutputBufferSize()];
 			transform.Transform(outputBuffer);
 			Assert::AreEqual(3.5f, outputBuffer[0], TOLERANCE);
 		}
